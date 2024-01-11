@@ -69,6 +69,13 @@ public class ProductServiceTests {
 		Assertions.assertNotNull(result);
 		Mockito.verify(repository).findAll(pageable);
 	}
+	
+	@Test
+	public void findByIdShouldReturnProductDTOWhenIdExists() {
+		ProductDTO result = service.findById(exintingId);
+		Assertions.assertNotNull(result);
+	}
+	
 
 	@Test
 	public void deleteShouldDoNothingWhenIdExists() {
