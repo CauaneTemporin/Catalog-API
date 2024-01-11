@@ -49,17 +49,29 @@ public class ProductServiceTests {
 		dependentId = 3L;
 		page = new PageImpl<>(List.of(product));
 
-		Mockito.when(repository.findAll((Pageable) ArgumentMatchers.any())).thenReturn(page);
-
 		Mockito.when(repository.save(ArgumentMatchers.any())).thenReturn(product);
 
-		Mockito.when(repository.findById(exintingId)).thenReturn(Optional.of(product));
+		Mockito.when(repository.findAll((Pageable) ArgumentMatchers.any())).thenReturn(page);
 
+		Mockito.when(repository.findById(exintingId)).thenReturn(Optional.of(product));
 		Mockito.when(repository.findById(nonExistingId)).thenReturn(Optional.empty());
 
 		Mockito.doNothing().when(repository).deleteById(exintingId);
 		Mockito.doThrow(EmptyResultDataAccessException.class).when(repository).deleteById(nonExistingId);
 		Mockito.doThrow(DataIntegrityViolationException.class).when(repository).deleteById(dependentId);
+	}
+
+	@Test
+	public void findByIdShouldThrowResourceNotFoundExceptionWhenIdDoesNotExist() {
+		Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+			service.findById(nonExistingId);
+		});
+	}
+
+	@Test
+	public void findByIdShouldReturnProductDTOWhenIdExists() {
+		ProductDTO result = service.findById(exintingId);
+		Assertions.assertNotNull(result);
 	}
 
 	@Test
@@ -69,13 +81,6 @@ public class ProductServiceTests {
 		Assertions.assertNotNull(result);
 		Mockito.verify(repository).findAll(pageable);
 	}
-	
-	@Test
-	public void findByIdShouldReturnProductDTOWhenIdExists() {
-		ProductDTO result = service.findById(exintingId);
-		Assertions.assertNotNull(result);
-	}
-	
 
 	@Test
 	public void deleteShouldDoNothingWhenIdExists() {
