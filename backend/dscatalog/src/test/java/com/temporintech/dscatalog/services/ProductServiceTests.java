@@ -70,7 +70,7 @@ public class ProductServiceTests {
 
 		Mockito.when(productRepository.getOne(exintingId)).thenReturn(product);
 		Mockito.when(productRepository.getOne(nonExistingId)).thenThrow(EntityNotFoundException.class);
-		
+
 		Mockito.when(categoryRepository.getOne(exintingId)).thenReturn(category);
 		Mockito.when(categoryRepository.getOne(nonExistingId)).thenThrow(EntityNotFoundException.class);
 
@@ -98,6 +98,13 @@ public class ProductServiceTests {
 		Page<ProductDTO> result = service.findAllPaged(pageable);
 		Assertions.assertNotNull(result);
 		Mockito.verify(productRepository).findAll(pageable);
+	}
+
+	@Test
+	public void updateShouldThrowResourceNotFoundExceptionWhenIdDoesNotExist() {
+		Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+			service.update(nonExistingId, productDTO);
+		});
 	}
 
 	@Test
