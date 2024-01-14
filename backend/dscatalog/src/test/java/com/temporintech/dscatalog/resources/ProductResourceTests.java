@@ -2,6 +2,8 @@ package com.temporintech.dscatalog.resources;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -22,6 +24,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.temporintech.dscatalog.DTO.ProductDTO;
 import com.temporintech.dscatalog.services.ProductService;
+import com.temporintech.dscatalog.services.exceptions.DatabaseException;
 import com.temporintech.dscatalog.services.exceptions.ResourceNotFoundException;
 import com.temporintech.dscatalog.tests.Factory;
 
@@ -39,6 +42,7 @@ public class ProductResourceTests {
 
 	private long nonExistingId;
 	private long exintingId;
+	private long dependentId;
 	private ProductDTO productDTO;
 	private PageImpl<ProductDTO> page;
 
@@ -48,6 +52,7 @@ public class ProductResourceTests {
 		page = new PageImpl<>(List.of(productDTO));
 		exintingId = 1L;
 		nonExistingId = 1000L;
+		dependentId = 3L;
 
 		Mockito.when(productService.findAllPaged(any())).thenReturn(page);
 
@@ -56,6 +61,10 @@ public class ProductResourceTests {
 
 		Mockito.when(productService.update(eq(exintingId), any())).thenReturn(productDTO);
 		Mockito.when(productService.update(eq(nonExistingId), any())).thenThrow(ResourceNotFoundException.class);
+
+		doNothing().when(productService).delete(exintingId);
+		doThrow(ResourceNotFoundException.class).when(productService).delete(nonExistingId);
+		doThrow(DatabaseException.class).when(productService).delete(dependentId);
 	}
 
 	@Test
