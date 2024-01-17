@@ -7,16 +7,15 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.temporintech.dscatalog.DTO.CategoryDTO;
 import com.temporintech.dscatalog.DTO.RoleDTO;
 import com.temporintech.dscatalog.DTO.UserDTO;
-import com.temporintech.dscatalog.entities.Category;
+import com.temporintech.dscatalog.DTO.UserInsertDTO;
 import com.temporintech.dscatalog.entities.Role;
 import com.temporintech.dscatalog.entities.User;
-import com.temporintech.dscatalog.repositories.CategoryRepository;
 import com.temporintech.dscatalog.repositories.RoleRepository;
 import com.temporintech.dscatalog.repositories.UserRepository;
 import com.temporintech.dscatalog.services.exceptions.DatabaseException;
@@ -26,6 +25,9 @@ import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class UserService {
+
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 
 	@Autowired
 	private UserRepository repository;
@@ -47,9 +49,10 @@ public class UserService {
 	}
 
 	@Transactional
-	public UserDTO insert(UserDTO dto) {
+	public UserDTO insert(UserInsertDTO dto) {
 		User entity = new User();
 		copyDtoToEntity(dto, entity);
+		entity.setPassword(passwordEncoder.encode(dto.getPassword()));
 		entity = repository.save(entity);
 		return new UserDTO(entity);
 	}
