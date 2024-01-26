@@ -17,7 +17,7 @@ public class WebSecurityConfig {
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
-A
+
 	@Autowired
 	UserDetailsService userDetailsService;
 
