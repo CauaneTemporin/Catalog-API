@@ -16,7 +16,7 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
-import com.temporintech.dscatalog.components.JwtTokenEnhancer;
+//import com.temporintech.dscatalog.components.JwtTokenEnhancer;
 
 @Configuration
 @EnableAuthorizationServer
@@ -43,8 +43,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
-	@Autowired
-	private JwtTokenEnhancer tokenEnhancer;
+//	@Autowired
+//	private JwtTokenEnhancer tokenEnhancer;
 	
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
@@ -61,16 +61,16 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		.accessTokenValiditySeconds(jwtDuration);
 	}
 
-	@Override
-	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-
-		TokenEnhancerChain chain = new TokenEnhancerChain();
-		chain.setTokenEnhancers(Arrays.asList(accessTokenConverter, tokenEnhancer));
-		
-		endpoints.authenticationManager(authenticationManager)
-		.tokenStore(tokenStore)
-		.accessTokenConverter(accessTokenConverter)
-		.tokenEnhancer(chain);
-	}
+//	@Override
+//	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+//
+//		TokenEnhancerChain chain = new TokenEnhancerChain();
+//		chain.setTokenEnhancers(Arrays.asList(accessTokenConverter, tokenEnhancer));
+//		
+//		endpoints.authenticationManager(authenticationManager)
+//		.tokenStore(tokenStore)
+//		.accessTokenConverter(accessTokenConverter)
+//		.tokenEnhancer(chain);
+//	}
 }
 

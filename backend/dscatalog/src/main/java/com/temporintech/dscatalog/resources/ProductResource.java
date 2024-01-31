@@ -2,6 +2,8 @@ package com.temporintech.dscatalog.resources;
 
 import java.net.URI;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,8 +20,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.temporintech.dscatalog.DTO.ProductDTO;
 import com.temporintech.dscatalog.services.ProductService;
-
-import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/products")
