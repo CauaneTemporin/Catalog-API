@@ -21,7 +21,7 @@ import com.temporintech.dscatalog.DTO.UserInsertDTO;
 import com.temporintech.dscatalog.DTO.UserUpdateDTO;
 import com.temporintech.dscatalog.services.UserService;
 
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/users")

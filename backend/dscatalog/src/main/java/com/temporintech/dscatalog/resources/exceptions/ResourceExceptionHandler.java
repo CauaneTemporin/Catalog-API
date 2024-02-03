@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.temporintech.dscatalog.services.exceptions.DatabaseException;
 import com.temporintech.dscatalog.services.exceptions.ResourceNotFoundException;
 
-import jakarta.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {

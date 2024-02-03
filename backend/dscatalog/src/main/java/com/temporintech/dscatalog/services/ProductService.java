@@ -19,7 +19,7 @@ import com.temporintech.dscatalog.repositories.ProductRepository;
 import com.temporintech.dscatalog.services.exceptions.DatabaseException;
 import com.temporintech.dscatalog.services.exceptions.ResourceNotFoundException;
 
-import jakarta.persistence.EntityNotFoundException;
+import javax.persistence.EntityNotFoundException;
 
 @Service
 public class ProductService {
