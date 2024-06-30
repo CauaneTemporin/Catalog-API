@@ -21,7 +21,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.temporintech.dscatalog.DTO.ProductDTO;
+import com.temporintech.dscatalog.dto.ProductDTO;
 import com.temporintech.dscatalog.entities.Product;
 import com.temporintech.dscatalog.repositories.ProductRepository;
 import com.temporintech.dscatalog.services.exceptions.DatabaseException;

@@ -2,6 +2,8 @@ package com.temporintech.dscatalog.services;
 
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -10,8 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.temporintech.dscatalog.DTO.CategoryDTO;
-import com.temporintech.dscatalog.DTO.ProductDTO;
+import com.temporintech.dscatalog.dto.CategoryDTO;
+import com.temporintech.dscatalog.dto.ProductDTO;
 import com.temporintech.dscatalog.entities.Category;
 import com.temporintech.dscatalog.entities.Product;
 import com.temporintech.dscatalog.repositories.CategoryRepository;
@@ -19,16 +21,15 @@ import com.temporintech.dscatalog.repositories.ProductRepository;
 import com.temporintech.dscatalog.services.exceptions.DatabaseException;
 import com.temporintech.dscatalog.services.exceptions.ResourceNotFoundException;
 
-import javax.persistence.EntityNotFoundException;
-
 @Service
 public class ProductService {
 
 	@Autowired
 	private ProductRepository repository;
+	
 	@Autowired
 	private CategoryRepository categoryRepository;
-
+	
 	@Transactional(readOnly = true)
 	public Page<ProductDTO> findAllPaged(Pageable pageable) {
 		Page<Product> list = repository.findAll(pageable);
@@ -57,23 +58,26 @@ public class ProductService {
 			copyDtoToEntity(dto, entity);
 			entity = repository.save(entity);
 			return new ProductDTO(entity);
-		} catch (EntityNotFoundException e) {
-			throw new ResourceNotFoundException("id not found " + id);
-		}	
+		}
+		catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Id not found " + id);
+		}		
 	}
 
 	public void delete(Long id) {
 		try {
 			repository.deleteById(id);
-
-		} catch (EmptyResultDataAccessException e) {
-			throw new ResourceNotFoundException("id not found " + id);
-		} catch (DataIntegrityViolationException e) {
+		}
+		catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException("Id not found " + id);
+		}
+		catch (DataIntegrityViolationException e) {
 			throw new DatabaseException("Integrity violation");
 		}
 	}
 	
 	private void copyDtoToEntity(ProductDTO dto, Product entity) {
+
 		entity.setName(dto.getName());
 		entity.setDescription(dto.getDescription());
 		entity.setDate(dto.getDate());
@@ -81,9 +85,9 @@ public class ProductService {
 		entity.setPrice(dto.getPrice());
 		
 		entity.getCategories().clear();
-		for (CategoryDTO catDTO : dto.getCategories()) {
-			Category category = categoryRepository.getOne(catDTO.getId());
-			entity.getCategories().add(category);
+		for (CategoryDTO catDto : dto.getCategories()) {
+			Category category = categoryRepository.getOne(catDto.getId());
+			entity.getCategories().add(category);			
 		}
-	}
+	}	
 }

@@ -1,4 +1,4 @@
-package com.temporintech.dscatalog.DTO;
+package com.temporintech.dscatalog.dto;
 
 import com.temporintech.dscatalog.services.validation.UserUpdateValid;
 

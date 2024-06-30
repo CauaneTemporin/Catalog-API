@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.temporintech.dscatalog.DTO.CategoryDTO;
+import com.temporintech.dscatalog.dto.CategoryDTO;
 import com.temporintech.dscatalog.services.CategoryService;
 
 @RestController

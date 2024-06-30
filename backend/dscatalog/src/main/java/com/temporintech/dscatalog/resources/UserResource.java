@@ -2,6 +2,8 @@ package com.temporintech.dscatalog.resources;
 
 import java.net.URI;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,12 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.temporintech.dscatalog.DTO.UserDTO;
-import com.temporintech.dscatalog.DTO.UserInsertDTO;
-import com.temporintech.dscatalog.DTO.UserUpdateDTO;
+import com.temporintech.dscatalog.dto.UserDTO;
+import com.temporintech.dscatalog.dto.UserInsertDTO;
+import com.temporintech.dscatalog.dto.UserUpdateDTO;
 import com.temporintech.dscatalog.services.UserService;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/users")

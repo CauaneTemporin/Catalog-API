@@ -1,40 +1,41 @@
 package com.temporintech.dscatalog.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
+	@Value("${jwt.secret}")
+	private String jwtSecret;
 
-	@Autowired
-	UserDetailsService userDetailsService;
-
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+	@Bean
+	BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
 	}
 
 	@Bean
-	protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests(requests -> requests.requestMatchers(new AntPathRequestMatcher("/**")).permitAll());
-		return http.build();
+	JwtAccessTokenConverter accessTokenConverter() {
+		JwtAccessTokenConverter tokenConverter = new JwtAccessTokenConverter();
+		tokenConverter.setSigningKey(jwtSecret);
+		return tokenConverter;
 	}
 
-	//PORQUE NÃO FUNCIONA?
-//	@Bean
-//	public AuthenticationManager authenticationManagerBean() throws Exception {
-//		return super.authenticationManagerBean();
-//	}
+	@Bean
+	JwtTokenStore tokenStore() {
+		return new JwtTokenStore(accessTokenConverter());
+	}
 
+	@Bean
+	AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+		return authenticationConfiguration.getAuthenticationManager();
+	}
 }

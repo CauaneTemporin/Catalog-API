@@ -2,7 +2,7 @@ package com.temporintech.dscatalog.tests;
 
 import java.time.Instant;
 
-import com.temporintech.dscatalog.DTO.ProductDTO;
+import com.temporintech.dscatalog.dto.ProductDTO;
 import com.temporintech.dscatalog.entities.Category;
 import com.temporintech.dscatalog.entities.Product;
 

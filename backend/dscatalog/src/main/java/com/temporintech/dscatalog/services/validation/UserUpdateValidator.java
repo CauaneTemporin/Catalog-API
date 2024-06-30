@@ -11,7 +11,7 @@ import javax.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerMapping;
 
-import com.temporintech.dscatalog.DTO.UserUpdateDTO;
+import com.temporintech.dscatalog.dto.UserUpdateDTO;
 import com.temporintech.dscatalog.entities.User;
 import com.temporintech.dscatalog.repositories.UserRepository;
 import com.temporintech.dscatalog.resources.exceptions.FieldMessage;

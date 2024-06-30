@@ -1,41 +1,47 @@
-package com.temporintech.dscatalog.DTO;
+package com.temporintech.dscatalog.dto;
 
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
-import com.temporintech.dscatalog.entities.Category;
-import com.temporintech.dscatalog.entities.Product;
-
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
-public class ProductDTO implements Serializable{
+import com.temporintech.dscatalog.entities.Category;
+import com.temporintech.dscatalog.entities.Product;
+
+public class ProductDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private Long id;
-	@Size(min = 5, max = 60, message = "Deve ter entre 5 é 60 caracteres")
+	
+	@Size(min = 5, max = 60, message = "Deve ter entre 5 e 60 caracteres")
 	@NotBlank(message = "Campo requerido")
 	private String name;
+
+	@NotBlank(message = "Campo requerido")
 	private String description;
+	
 	@Positive(message = "Preço deve ser um valor positivo")
 	private Double price;
+	
 	private String imgUrl;
+	
 	@PastOrPresent(message = "A data do produto não pode ser futura")
 	private Instant date;
 	
+	@NotEmpty(message = "Produto sem categoria não é permitido")
 	private List<CategoryDTO> categories = new ArrayList<>();
 	
 	public ProductDTO() {
 	}
 
 	public ProductDTO(Long id, String name, String description, Double price, String imgUrl, Instant date) {
-		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -45,7 +51,6 @@ public class ProductDTO implements Serializable{
 	}
 	
 	public ProductDTO(Product entity) {
-		super();
 		this.id = entity.getId();
 		this.name = entity.getName();
 		this.description = entity.getDescription();
@@ -61,7 +66,7 @@ public class ProductDTO implements Serializable{
 
 	public Long getId() {
 		return id;
-	} 
+	}
 
 	public void setId(Long id) {
 		this.id = id;
@@ -111,21 +116,7 @@ public class ProductDTO implements Serializable{
 		return categories;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
+	public void setCategories(List<CategoryDTO> categories) {
+		this.categories = categories;
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ProductDTO other = (ProductDTO) obj;
-		return Objects.equals(id, other.id);
-	}
-	
 }

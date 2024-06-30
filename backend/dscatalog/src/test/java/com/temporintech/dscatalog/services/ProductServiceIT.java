@@ -10,7 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.temporintech.dscatalog.DTO.ProductDTO;
+import com.temporintech.dscatalog.dto.ProductDTO;
 import com.temporintech.dscatalog.repositories.ProductRepository;
 import com.temporintech.dscatalog.services.exceptions.ResourceNotFoundException;
 
